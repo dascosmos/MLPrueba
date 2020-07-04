@@ -34,7 +34,4 @@ class Planet:
         self.theta = calculate_grad(self.angular_vel, time)
         self.x_pos = calculate_pos_x(self.theta, self.distance)
         self.y_pos = calculate_pos_y(self.theta, self.distance)
-        return Point2D(self.x_pos, self.y_pos)
-
-    def __str__(self):
-        return '{self}'.format(self=self)
+        self.position = Point2D(self.x_pos, self.y_pos)

@@ -1,4 +1,4 @@
-from model.Planet import Planet
+from model.data.Planet import Planet
 
 
 class SolarSystem:
@@ -12,6 +12,3 @@ class SolarSystem:
         self.ferengi.calculate_with_time(time)
         self.vulcano.calculate_with_time(time)
         self.betasoide.calculate_with_time(time)
-
-    def __str__(self):
-        return '{self}'.format(self)

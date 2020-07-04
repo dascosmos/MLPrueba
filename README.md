@@ -30,7 +30,7 @@ abrir un comand prompt en la carpeta del proyecto.
 
 #### Desde Pycharm
 
-* Descargar e instalar [Pycharm community edition](https://github.com/dascosmos/MLPrueba)
+* Descargar e instalar [Pycharm community edition](https://www.jetbrains.com/pycharm/download/)
 * Clonar el proye4cto
 * Abrir proyecto desde Pycharm
 * Ir a File/settings/Project:MLPrueba/Project interpreter

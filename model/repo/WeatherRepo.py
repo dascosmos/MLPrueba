@@ -1,6 +1,7 @@
 from model.calculations.Weather import WeatherCalc
 from model.data.SolarSystem import SolarSystem
 from model.calculations.Weather import WeatherTypes
+from model.repo.WeatherDTO import WeatherDTO
 import operator
 
 
@@ -13,7 +14,7 @@ class WeatherRepo:
         self.weather_calc = WeatherCalc(self.solar_system)
 
     def initialize_info(self):
-        for x in range(1, 3650, 1):
+        for x in range(1, 3651, 1):
             self.solar_system.calculate_pos_with_time(x)
             weather_type = self.weather_calc.calculate_weather()[0].name
             rainy_days = self.weather_calc.calculate_weather()[1]
@@ -22,20 +23,22 @@ class WeatherRepo:
                 self.most_rainy_days.update({x: rainy_days})
 
     def search_by_day(self, day):
-        return self.cache[day]
+        return {day: self.cache[day]}
 
     def calculate_weather(self):
         filter_dict = dict(filter(lambda elem: elem[1] != WeatherTypes.UNKNOWN, self.cache.items()))
         cont_drought = 0
         cont_rainy = 0
         cont_rainy_periods = 0
-        cont_most_rainy = 0
+        cont_optimal = 0
 
         for key in filter_dict.keys():
             if filter_dict[key] ==  WeatherTypes.DROUGHT.name:
                 cont_drought += 1
             elif filter_dict[key] == WeatherTypes.RAINY.name:
                 cont_rainy += 1
+            else:
+                cont_optimal += 1
 
         rainy_values = {}
         day_most_rain = []
@@ -49,7 +52,4 @@ class WeatherRepo:
                     day_most_rain.append(max(rainy_values.items(), key=operator.itemgetter(1))[0])
                     rainy_values.clear()
 
-        return ("drought days: " + str(cont_drought) +
-                " rainy days: " + str(cont_rainy) +
-                " rainy perieods: " + str(cont_rainy_periods) + "\n" +
-                " days with most rain: " + str(lambda x: x in day_most_rain) + "\n")
+        return WeatherDTO(cont_drought, cont_rainy, cont_rainy_periods, cont_optimal, day_most_rain)

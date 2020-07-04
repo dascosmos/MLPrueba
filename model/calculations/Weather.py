@@ -13,7 +13,6 @@ def compare_angles(theta1, theta2):
 
 
 def barycentric_point(a, b, c):
-
     v0 = array(c) - array(a)
     v1 = array(b) - array(a)
     v2 = array(Point2D(0, 0).cartesian()) - array(a)
@@ -32,11 +31,11 @@ def barycentric_point(a, b, c):
 
 
 def perimeter(p1, p2, p3):
-    d1 = sqrt((p2.x - p1.x)**2 + (p2.y - p1.y)**2)
-    d2 = sqrt((p3.x - p2.x)**2 + (p3.y - p2.y)**2)
+    d1 = sqrt((p2.x - p1.x) ** 2 + (p2.y - p1.y) ** 2)
+    d2 = sqrt((p3.x - p2.x) ** 2 + (p3.y - p2.y) ** 2)
     d3 = sqrt((p1.x - p3.x) ** 2 + (p1.y - p3.y) ** 2)
 
-    return d1 +d2 + d3
+    return d1 + d2 + d3
 
 
 class Drought:
@@ -67,9 +66,27 @@ class Rainy:
                          self.solar_system.betasoide.position)
 
 
-# TODO: calculate optimal conditions
 class Optimal:
-    pass
+
+    def __init__(self, solar_system: SolarSystem):
+        self.solar_system = solar_system
+
+    def calculate_optimal_conditions(self):
+        ferengi = self.solar_system.ferengi
+        vulcano = self.solar_system.vulcano
+        bestasoide = self.solar_system.betasoide
+
+        if (ferengi.x_pos == vulcano.x_pos == bestasoide.x_pos and ferengi.x_pos != 0) or \
+                (ferengi.y_pos == vulcano.y_pos == bestasoide.y_pos and bestasoide.y_pos != 0):
+            return True
+
+        # calculate line equation y = mx +b
+
+        slope = (ferengi.y_pos - vulcano.y_pos) / (ferengi.x_pos - vulcano.x_pos)
+        indepent = ferengi.y_pos - (slope * ferengi.x_pos)
+
+        if (bestasoide.x_pos * slope) + indepent == bestasoide.y_pos and indepent != 0:
+            return True
 
 
 class WeatherTypes(Enum):
@@ -85,6 +102,7 @@ class WeatherCalc:
     def __init__(self, solar_system: SolarSystem):
         self.drought = Drought(solar_system)
         self.rainy = Rainy(solar_system)
+        self.optimal = Optimal(solar_system)
 
     def calculate_weather(self):
 
@@ -92,6 +110,7 @@ class WeatherCalc:
             return WeatherTypes.DROUGHT, 0.0
         elif self.rainy.calculate_sun_inside_triangle():
             return WeatherTypes.RAINY, self.rainy.get_perimeter()
+        elif self.optimal.calculate_optimal_conditions():
+            return WeatherTypes.OPTIMAL, 0.0
         else:
             return WeatherTypes.UNKNOWN, 0.0
-

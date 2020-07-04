@@ -1,3 +1,8 @@
+import sys
+import os
+print('Python %s on %s' % (sys.version, sys.platform))
+sys.path.extend([os.getcwd()])
+
 import flask
 from flask import request, jsonify
 from model.data.SolarSystem import SolarSystem
@@ -23,6 +28,7 @@ def to_dict_all(weatherDTO):
                   }
 
     return dictionary
+
 
 def to_dict_by_day(result):
     dict = {}
@@ -60,5 +66,6 @@ def get_by_day():
 @app.errorhandler(404)
 def page_not_found(e):
     return "<h1>404</h1><p>The resource could not be found.</p>", 404
+
 
 app.run()

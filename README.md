@@ -44,7 +44,7 @@ abrir un comand prompt en la carpeta del proyecto.
     * flask
 * Pulsar ok y ya se habrá instaldo el venv con los paquetes necesarios.
 
-#####Correr desde pycharm:
+##### Correr desde pycharm:
 * Click en edit configurations ubicado en la parte superior derecha de la pantalla
 * Click en el icono '+' que se muestra en la parte superior izquierda de la ventana que acaba de aparecer
 * Seleccionar python

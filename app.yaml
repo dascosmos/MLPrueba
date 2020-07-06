@@ -6,7 +6,7 @@ handlers:
     script: auto
 
   - url: /forecast/weather
-    script: app.webService
+    script: auto
 
   - url: /forecast/day
-    script: app.webService
+    script: auto

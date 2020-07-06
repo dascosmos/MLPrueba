@@ -1,1 +1,12 @@
 runtime: python37
+
+
+handlers:
+  - url: /
+    script: app.webService
+
+  - url: /forecast/weather
+    script: app.webService
+
+  - url: /forecast/day
+    script: app.webService
